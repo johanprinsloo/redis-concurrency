@@ -1,6 +1,7 @@
 package org.test
 
 import com.redis._
+import io.Source
 
 object RedisTest extends App {
   val r = new RedisClient("localhost", 6379)
@@ -28,4 +29,18 @@ object RedisTest extends App {
   getparse("d")
 
   r disconnect
+
+    /**
+   * Reads a word list text file
+   * Returns a ragged list of char lists
+   */
+  def parseWordList(filename: String): List[String] = {
+
+    var buffer: List[String] = List.empty
+    Source.fromFile(filename, "utf-8").getLines
+      .foreach {
+      line => buffer = List(line) ::: buffer
+    }
+    return buffer
+  }
 }
